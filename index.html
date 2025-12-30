@@ -3,159 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lyrics</title>
+    <title>My Cute Lyric Notebook</title>
+    <!-- Google Fonts for a cute font -->
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Comic Neue', cursive, sans-serif; /* Cute font */
             margin: 20px;
             padding: 0;
-            background-color: #f4f7f6;
-            color: #333;
+            background-color: #fcf8f8; /* Very light pinkish background */
+            color: #6a4a3c; /* Soft brown for text */
             line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full viewport height */
         }
 
         .container {
             max-width: 900px;
+            width: 95%; /* Make it a bit more responsive */
             margin: 30px auto;
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 25px; /* More rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer, larger shadow */
+            border: 1px solid #f8e0e0; /* Subtle light pink border */
         }
 
         h1 {
             text-align: center;
-            color: #2c3e50;
+            color: #ff69b4; /* Hot pink for main title */
             margin-bottom: 30px;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 2px dashed #f8bbd0; /* Dashed pink line */
             padding-bottom: 15px;
+            font-family: 'Kalam', cursive, sans-serif; /* A bit more playful font for titles */
+            font-size: 2.5em;
+            letter-spacing: 1px;
         }
 
         h2 {
-            color: #34495e;
-            margin-top: 25px;
+            color: #9b59b6; /* Soft purple for sections */
+            margin-top: 35px;
             margin-bottom: 15px;
+            font-family: 'Kalam', cursive, sans-serif;
+            font-size: 1.8em;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: bold;
-            color: #444;
+            color: #8A2BE2; /* BlueViolet for labels */
+            font-size: 1.1em;
         }
 
         input[type="text"],
         textarea {
-            width: calc(100% - 22px); /* Adjust for padding and border */
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            width: calc(100% - 22px);
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #e0b0d5; /* Soft pinkish purple border */
+            border-radius: 12px; /* Rounded inputs */
             font-size: 1rem;
             box-sizing: border-box;
             resize: vertical;
+            background-color: #fffafa; /* Very light pinkish white background */
+            color: #6a4a3c;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: #ff69b4; /* Hot pink on focus */
+            box-shadow: 0 0 8px rgba(255, 105, 180, 0.3); /* Soft pink glow */
+            outline: none;
+        }
+
+        /* Placeholder text style */
+        ::placeholder {
+            color: #c0a0c0; /* Softer placeholder text */
+            opacity: 1; /* Ensure consistent appearance across browsers */
+            font-family: 'Comic Neue', cursive, sans-serif;
         }
 
         button {
-            background-color: #3498db;
+     background-color: #87CEFA; /* Light Sky Blue for action buttons */
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 5px;
+            border-radius: 12px; /* Rounded buttons */
             cursor: pointer;
-            font-size: 1rem;
-            margin-right: 10px;
-            transition: background-color 0.3s ease;
+            font-size: 1.1rem;
+            margin-right: 15px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         button:hover {
-            background-color: #2980b9;
+            background-color: #6495ED; /* Cornflower Blue on hover */
+            transform: translateY(-2px); /* Slight lift effect */
         }
 
         button:active {
-            background-color: #216a9a;
+            background-color: #4169E1; /* Royal Blue on click */
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         #lyricOutput {
             margin-top: 30px;
-            border-top: 1px dashed #ddd;
-            padding-top: 20px;
+            border-top: 2px dashed #f8bbd0; /* Dashed pink line */
+            padding-top: 25px;
         }
 
         .lyric-item {
-            background-color: #ecf0f1;
-            border: 1px solid #dcdcdc;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            background-color: #fce4ec; /* Very light pink for lyric items */
+            border: 1px solid #f8bbd0; /* Softer border */
+            border-radius: 18px; /* More rounded */
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Softer shadow */
         }
 
         .lyric-item p {
             font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 1.1em;
+            color: #8A2BE2; /* BlueViolet for the lyric text */
+            margin-bottom: 12px;
+            font-size: 1.2em;
         }
 
         .lyric-item label {
             display: block;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            color: #555;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            color: #7b68ee; /* Medium purple for sub-labels */
             font-weight: normal;
+            font-size: 1em;
         }
 
         .lyric-item textarea {
-            width: 100%;
-            min-height: 60px;
-            margin-top: 5px;
-            margin-bottom: 0;
-            background-color: #fdfdfd;
-            border: 1px solid #e0e0e0;
+            min-height: 80px; /* Slightly taller default */
+            background-color: #fffafa; /* Consistent light background */
+            border: 1px solid #e0b0d5;
         }
 
         .export-button-container {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px dashed #ddd;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 2px dashed #f8bbd0; /* Dashed pink line */
         }
 
         .export-button-container button {
-            background-color: #27ae60;
+            background-color: #90EE90; /* Light Green for export */
         }
 
         .export-button-container button:hover {
-            background-color: #229954;
+            background-color: #6B8E23; /* Olive Drab on hover */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎵 Lyrics🎵</h1>
+        <h1>🎵 Lyrics ✨</h1>
 
-        <h2>Info</h2>
-        <label for="songTitleInput">Title:</label>
-        <input type="text" id="songTitleInput" placeholder="">
+        <h2>📝 Basic</h2>
+        <label for="songTitleInput">Title</label>
+        <input type="text" id="songTitleInput" placeholder="e.g., Twinkle, Twinkle, Little Star">
 
-        <label for="artistInput">Singer:</label>
-        <input type="text" id="artistInput" placeholder="">
+        <label for="artistInput">Singer</label>
+        <input type="text" id="artistInput" placeholder="e.g., Traditional Nursery Rhyme">
 
-        <label for="songLinkInput">Link:</label>
-        <input type="text" id="songLinkInput" placeholder="">
+        <label for="songLinkInput">Listen!</label>
+        <input type="text" id="songLinkInput" placeholder="e.g., https://www.youtube.com/watch?v=yCjJycW-r4g">
 
-        <h2>Lyrics</h2>
-        <textarea id="lyricInput" rows="15" placeholder="Paste your lyrics here, one line per verse or separated by newlines..."></textarea>
-        <button onclick="processLyrics()">Line by Line</button>
+        <h2>🎶 Lyrics </h2>
+        <textarea id="lyricInput" rows="15" placeholder="Paste your lovely lyrics here, one line per verse or separated by newlines. Let's make some magic! ✨"></textarea>
+        <button onclick="processLyrics()"> ✂️Lines </button>
 
-        <h2>My Notes</h2>
+        <h2>💖 Notes </h2>
         <div id="lyricOutput">
-            <p style="text-align: center; color: #777;">Lyrics in lines.</p>
+            <p style="text-align: center; color: #c0a0c0;">Your beautiful lyrics will appear here, ready for your creative thoughts! 🌈</p>
         </div>
 
         <div class="export-button-container">
-            <button onclick="exportLyrics()">Export</button>
+            <button onclick="exportLyrics()">Export💾</button>
         </div>
     </div>
 
@@ -163,10 +197,10 @@
         function processLyrics() {
             const lyricInput = document.getElementById('lyricInput');
             const lyricOutputDiv = document.getElementById('lyricOutput');
-            const lyrics = lyricInput.value.trim();
+        const lyrics = lyricInput.value.trim();
 
             if (!lyrics) {
-                alert('Please paste lyrics first!');
+                alert('Oopsie! Please paste some lyrics first. 😊');
                 return;
             }
 
@@ -177,7 +211,7 @@
             const lines = lyrics.split('\n').filter(line => line.trim() !== '');
 
             if (lines.length === 0) {
-                lyricOutputDiv.innerHTML = '<p style="text-align: center; color: #777;">No valid lyric lines found.</p>';
+                lyricOutputDiv.innerHTML = '<p style="text-align: center; color: #c0a0c0;">Hmm, couldn\'t find any valid lyric lines. Try again? 🤔</p>';
                 return;
             }
 
@@ -188,10 +222,10 @@
 
                 lyricItem.innerHTML = `
                     <p><strong>Lyric ${index + 1}:</strong> ${line.trim()}</p>
-                    <label for="note-${index}">Annotation/Interpretation:</label>
-                    <textarea id="note-${index}" class="note-textarea" placeholder=""></textarea>
-                    <label for="thought-${index}">Personal Reflection:</label>
-                    <textarea id="thought-${index}" class="thought-textarea" placeholder=""></textarea>
+                    <label for="note-${index}">My Annotation/Interpretation:</label>
+                    <textarea id="note-${index}" class="note-textarea" placeholder="What does this line mean to you? Any interesting facts or hidden messages? 💡"></textarea>
+                    <label for="thought-${index}">My Personal Reflection:</label>
+                    <textarea id="thought-${index}" class="thought-textarea" placeholder="How does this line make you feel? What memories or ideas does it spark? ❤️"></textarea>
                 `;
                 lyricOutputDiv.appendChild(lyricItem);
             });
@@ -204,11 +238,11 @@
             const lyricItems = document.querySelectorAll('.lyric-item');
 
             if (lyricItems.length === 0) {
-                alert('Please split lyrics and add annotations first!');
+                alert('Oh no! Please split your lyrics and add your lovely notes before exporting. 📝');
                 return;
             }
 
-            let exportContent = '--- Lyrics Export ---\n\n';
+            let exportContent = '--- My Cute Lyric Notebook Export ---\n\n';
 
             if (songTitle) {
                 exportContent += `Song Title: ${songTitle}\n`;
@@ -220,7 +254,7 @@
                 exportContent += `Song Link: ${songLink}\n`;
             }
             if (songTitle || artist || songLink) { // Add a separator if any song info is present
-                exportContent += '\n--------------------\n\n';
+                exportContent += '\n-------------------- ✨ --------------------\n\n';
             }
 
 
@@ -237,7 +271,7 @@
                 if (thoughtText) {
                     exportContent += `Reflection: ${thoughtText}\n`;
                 }
-                exportContent += '\n--------------------\n\n';
+                exportContent += '\n-------------------- 💖 --------------------\n\n';
             });
 
             // Create Blob object
@@ -246,8 +280,8 @@
             // Create download link
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            // Dynamic filename: "LyricNotebook_SongTitle_YYYY-MM-DD.txt" or "LyricNotebook_YYYY-MM-DD.txt"
-            let filename = 'LyricNotebook_';
+            // Dynamic filename: "CuteLyricNotebook_SongTitle_YYYY-MM-DD.txt" or "CuteLyricNotebook_YYYY-MM-DD.txt"
+            let filename = 'CuteLyricNotebook_';
             if (songTitle) {
                 filename += songTitle.replace(/[^a-zA-Z0-9_]/g, '') + '_'; // Clean up title for filename
             }
