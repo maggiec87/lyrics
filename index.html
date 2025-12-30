@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyrics</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input[type="text"],
+        textarea {
+            width: calc(100% - 22px); /* Adjust for padding and border */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button:active {
+            background-color: #216a9a;
+        }
+
+        #lyricOutput {
+            margin-top: 30px;
+            border-top: 1px dashed #ddd;
+            padding-top: 20px;
+        }
+
+        .lyric-item {
+            background-color: #ecf0f1;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .lyric-item p {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .lyric-item label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: normal;
+        }
+
+        .lyric-item textarea {
+            width: 100%;
+            min-height: 60px;
+            margin-top: 5px;
+            margin-bottom: 0;
+            background-color: #fdfdfd;
+            border: 1px solid #e0e0e0;
+        }
+
+        .export-button-container {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .export-button-container button {
+            background-color: #27ae60;
+        }
+
+        .export-button-container button:hover {
+            background-color: #229954;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Lyrics🎵</h1>
+
+        <h2>Info</h2>
+        <label for="songTitleInput">Title:</label>
+        <input type="text" id="songTitleInput" placeholder="">
+
+        <label for="artistInput">Singer:</label>
+        <input type="text" id="artistInput" placeholder="">
+
+        <label for="songLinkInput">Link:</label>
+        <input type="text" id="songLinkInput" placeholder="">
+
+        <h2>Lyrics</h2>
+        <textarea id="lyricInput" rows="15" placeholder="Paste your lyrics here, one line per verse or separated by newlines..."></textarea>
+        <button onclick="processLyrics()">Line by Line</button>
+
+        <h2>My Notes</h2>
+        <div id="lyricOutput">
+            <p style="text-align: center; color: #777;">Lyrics in lines.</p>
+        </div>
+
+        <div class="export-button-container">
+            <button onclick="exportLyrics()">Export</button>
+        </div>
+    </div>
+
+    <script>
+        function processLyrics() {
+            const lyricInput = document.getElementById('lyricInput');
+            const lyricOutputDiv = document.getElementById('lyricOutput');
+            const lyrics = lyricInput.value.trim();
+
+            if (!lyrics) {
+                alert('Please paste lyrics first!');
+                return;
+            }
+
+            // Clear previous output
+            lyricOutputDiv.innerHTML = '';
+
+            // Split lyrics by line, filtering out empty lines
+            const lines = lyrics.split('\n').filter(line => line.trim() !== '');
+
+            if (lines.length === 0) {
+                lyricOutputDiv.innerHTML = '<p style="text-align: center; color: #777;">No valid lyric lines found.</p>';
+                return;
+            }
+
+            lines.forEach((line, index) => {
+                const lyricItem = document.createElement('div');
+                lyricItem.className = 'lyric-item';
+                lyricItem.setAttribute('data-index', index); // Used for export
+
+                lyricItem.innerHTML = `
+                    <p><strong>Lyric ${index + 1}:</strong> ${line.trim()}</p>
+                    <label for="note-${index}">Annotation/Interpretation:</label>
+                    <textarea id="note-${index}" class="note-textarea" placeholder=""></textarea>
+                    <label for="thought-${index}">Personal Reflection:</label>
+                    <textarea id="thought-${index}" class="thought-textarea" placeholder=""></textarea>
+                `;
+                lyricOutputDiv.appendChild(lyricItem);
+            });
+        }
+
+        function exportLyrics() {
+            const songTitle = document.getElementById('songTitleInput').value.trim();
+            const artist = document.getElementById('artistInput').value.trim();
+            const songLink = document.getElementById('songLinkInput').value.trim();
+            const lyricItems = document.querySelectorAll('.lyric-item');
+
+            if (lyricItems.length === 0) {
+                alert('Please split lyrics and add annotations first!');
+                return;
+            }
+
+            let exportContent = '--- Lyrics Export ---\n\n';
+
+            if (songTitle) {
+                exportContent += `Song Title: ${songTitle}\n`;
+            }
+            if (artist) {
+                exportContent += `Artist: ${artist}\n`;
+            }
+            if (songLink) {
+                exportContent += `Song Link: ${songLink}\n`;
+            }
+            if (songTitle || artist || songLink) { // Add a separator if any song info is present
+                exportContent += '\n--------------------\n\n';
+            }
+
+
+            lyricItems.forEach((item, index) => {
+                const lyricText = item.querySelector('p').textContent.replace(/Lyric \d+:\s*/, ''); // Remove "Lyric X:" prefix
+                const noteText = item.querySelector(`#note-${item.getAttribute('data-index')}`).value.trim();
+                const thoughtText = item.querySelector(`#thought-${item.getAttribute('data-index')}`).value.trim();
+
+                exportContent += `[Lyric ${index + 1}]\n`;
+                exportContent += `Lyric: ${lyricText}\n`;
+                if (noteText) {
+                    exportContent += `Annotation: ${noteText}\n`;
+                }
+                if (thoughtText) {
+                    exportContent += `Reflection: ${thoughtText}\n`;
+                }
+                exportContent += '\n--------------------\n\n';
+            });
+
+            // Create Blob object
+            const blob = new Blob([exportContent], { type: 'text/plain;charset=utf-8' });
+
+            // Create download link
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            // Dynamic filename: "LyricNotebook_SongTitle_YYYY-MM-DD.txt" or "LyricNotebook_YYYY-MM-DD.txt"
+            let filename = 'LyricNotebook_';
+            if (songTitle) {
+                filename += songTitle.replace(/[^a-zA-Z0-9_]/g, '') + '_'; // Clean up title for filename
+            }
+            filename += new Date().toISOString().slice(0, 10) + '.txt';
+            a.download = filename;
+            document.body.appendChild(a); // Temporarily add to DOM
+            a.click(); // Simulate click to trigger download
+            document.body.removeChild(a); // Remove link
+            URL.revokeObjectURL(a.href); // Release URL object
+        }
+    </script>
+</body>
+</html>
